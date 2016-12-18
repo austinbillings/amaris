@@ -1,5 +1,6 @@
 module.exports = {
   name: 'frontend',
+  description: 'An Angular frontend app with integrated Gulp, Ringo, Xx, Northeast, and Mansion.'
   require: [ 'name', 'author' ],
   mkdir: [
     'js', 'js/controllers', 'js/services', 'js/directives', 'html', 'html/partials', 'html/views', 'html/templates', 'scss', 'assets', 'json', 'dist'
