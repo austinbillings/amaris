@@ -1,0 +1,11 @@
+{
+  "name": "<%= name %>",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"¿Donde esta tu teste, hombre?\""
+  },
+  "author": "<%= author %>",
+  "license": "MIT"
+}

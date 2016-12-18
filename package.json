@@ -1,0 +1,43 @@
+{
+  "name": "havok",
+  "version": "0.0.1",
+  "description": "Minimalist scaffolding for quick, MEAN apps.",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "ajb test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/austinbillings/havok.git"
+  },
+  "keywords": [
+    "ajb",
+    "scaffolding",
+    "app",
+    "bootstrapping",
+    "setup",
+    "initialization",
+    "inception"
+  ],
+  "author": "Austin Billings <austin@austinbillings.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/austinbillings/havok/issues"
+  },
+  "bin": {
+    "havok": "src/cli.js"
+  },
+  "homepage": "https://github.com/austinbillings/havok#readme",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "child_process": "^1.0.2",
+    "cloq": "0.0.1",
+    "fs": "0.0.1-security",
+    "mkdirp": "^0.5.1",
+    "node-jawn": "^1.1.14",
+    "require-dir": "^0.3.1",
+    "shelljs": "^0.7.5",
+    "underscore": "^1.8.3",
+    "zaq": "^1.0.3"
+  }
+}

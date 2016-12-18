@@ -1,0 +1,16 @@
+<!doctype HTML>
+<html ng-app="<%= name %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+  <meta name="author" content="<%= author %>" />
+  <title><%= name %></title>
+  <script src="dist/vendor.js"></script>
+  <script src="dist/app.js"></script>
+  <link rel="stylesheet" src="dist/vendor.css" />
+  <link rel="stylesheet" src="dist/ui.css" />
+</head>
+<body ng-controller="baseController">
+  <view ng-include="view('main')"></view>
+</body>
+</html>
