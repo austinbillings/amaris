@@ -1,19 +1,38 @@
-const zaq = require('zaq');
 const fs = require('fs');
-const _ = require('underscore');
-const chalk = require('chalk');
+const zaq = require('zaq');
 const Cloq = require('cloq');
-const shell = require('shelljs');
+const chalk = require('chalk');
+const _ = require('underscore');
 const mkdir = require('mkdirp');
+const shell = require('shelljs');
+const params = require('./params.js');
 const collector = require('./collector.js');
 
-let havok = {
-  jobs: ['frontend'],
+let jaq = {
+  params,
+  version: '0.0.1',
+  blueprints: ['frontend'],
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  require (requirements, options) {
-    _.each(requirements, (msg, key) => {
-      if (!_.has(options, key)) { zaq.err(msg); process.exit(1); }
+  require (requirements, input) {
+    let pass = true;
+    _.each(requirements, (requiredParam) => {
+      let param = {};
+
+      if (_.has(params, requiredParam)) {
+        param = params[requiredParam];
+      } else {
+        param = params.unknown(requiredParam);
+        zaq.warn(`Unknown parameter "${requiredParam}" required by blueprint. `)
+      }
+
+      if (!_.has(input, requiredParam)) {
+        zaq.err(param.error);
+        zaq.err(chalk.dim(`Provide a ${requiredParam} with the -${param.flag} flag.`));
+        zaq.err(chalk.dim(`Example: -${param.flag} ${param.example} \n`));
+        pass = false;
+      }
     });
+    return pass;
   },
   // Make dirs -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   directories (dirs) {
@@ -22,6 +41,7 @@ let havok = {
       mkdir.sync(dir);
       zaq.win(`Created directory: ${dir}`);
     });
+    return true;
   },
   // Copy files -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   copyFiles (list, directory, options) {
@@ -32,59 +52,75 @@ let havok = {
       fs.writeFileSync(fileName, content);
       zaq.win(`Copied file: ${fileName}`);
     });
+    return true;
   },
   // Node Modules -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   installNode (npm) {
     zaq.divider('\n Installing Node modules...', '-=~=');
     if (npm.deps) {
       zaq.info(chalk.dim(chalk.bold(npm.deps.length) + ' NPM dependencies;'));
-      shell.exec('npm i --save ' + npm.deps.join(' '), {silent: true});
+      shell.exec('npm i --save ' + npm.deps.join(' '));
     }
     if (npm.devDeps) {
       zaq.info(chalk.dim(chalk.bold(npm.devDeps.length) + ' NPM dev dependencies;'));
-      shell.exec('npm i --save-dev ' + npm.devDeps.join(' '), {silent: true});
+      shell.exec('npm i --save-dev ' + npm.devDeps.join(' '));
     }
+    return true;
   },
   // Bower Components -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   installBower (bower) {
     zaq.divider('\n Installing Bower components...', '-=~=');
     if (bower.deps) {
       zaq.info(chalk.dim(chalk.bold(bower.deps.length) + ' Bower dependencies;'));
-      shell.exec('bower install --save ' + bower.deps.join(' '), {silent: true});
+      shell.exec('bower install --save ' + bower.deps.join(' '));
     }
     if (bower.devDeps) {
       zaq.info(chalk.dim(chalk.bold(bower.deps.length) + ' Bower dev dependencies;'));
-      shell.exec('bower install --save-dev ' + bower.deps.join(' '), {silent: true});
+      shell.exec('bower install --save-dev ' + bower.deps.join(' '));
     }
+    return true;
   },
   // Exec commands -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   runCommands (commands) {
+    zaq.divider('\n Running commands...', '-=~=');
     _.each(commands, (command) => {
-      zaq.divider('\n Running commands...', '-=~=');
       zaq.info('Running command: ' + chalk.cyan.bold(command));
-      shell.exec(command, {silent: true});
+      shell.exec(command);
     });
+    return true;
   },
   // Run a scaffold template -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  scaffold (set, options) {
-    let cloq = new Cloq('Scaffolding');
-    let cwd = './';
-    let directory = __dirname + '/../jobs/' + set + '/';
-    let config = require(directory + 'havok.config.js');
-    if (config.require) havok.require(config.require, options);
-    cloq.lap('requiring');
-    if (config.mkdir) havok.directories(config.mkdir);
+  scaffold (blueprint, input) {
+    let directory = __dirname + '/../blueprints/' + blueprint + '/';
+    let config = require(directory + 'jaq.config.js');
+
+    if (config.require && !jaq.require(config.require, input))
+      return false;
+    let cloq = new Cloq('scaffolding');
+
+    if (config.mkdir && !jaq.directories(config.mkdir))
+      return false;
     cloq.lap('directories');
-    if (config.copy) havok.copyFiles(config.copy, directory, options);
+
+    if (config.copy && !jaq.copyFiles(config.copy, directory, input))
+      return false;
     cloq.lap('copying files');
-    if (config.npm) havok.installNode(config.npm);
+
+    if (config.npm && !jaq.installNode(config.npm))
+      return false;
     cloq.lap('npm install');
-    if (config.bower) havok.installBower(config.bower);
+
+    if (config.bower && !jaq.installBower(config.bower))
+      return false;
     cloq.lap('bower install');
-    if (config.commands) havok.runCommands(config.commands);
+
+    if (config.commands && !jaq.runCommands(config.commands))
+      return false;
     cloq.done('running commands');
-    zaq.win('Successfully scaffolded from the "' + chalk.bold(set) + '" blueprint.\n');
+
+    zaq.win(`Successfully scaffolded from the "${chalk.bold(blueprint)}" blueprint. \n`);
+    return true;
   }
 };
 
-module.exports = havok;
+module.exports = jaq;

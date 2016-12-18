@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"¿Donde esta tu teste, hombre?\""
+    "test": "echo \"¿Donde esta tu prueba, hombre?\""
   },
   "author": "<%= author %>",
   "license": "MIT"
