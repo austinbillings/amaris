@@ -11,7 +11,7 @@ const collector = require('./collector.js');
 let jaq = {
   params,
   version: '0.0.1',
-  blueprints: ['frontend'],
+  blueprints: ['angular', 'basic'],
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
     let pass = true;

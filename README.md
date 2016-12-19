@@ -21,7 +21,7 @@ jaq <name-of-blueprint> [<blueprint-required-arg>...]
 
 ...and Jaq will build an empty project from your template in the current working directory.
 
-For example, Jaq comes with a "frontend" blueprint to start. It requires `name` and `author` parameters. Pass them with the `-n` and `-a` arguments, respectively.
+For example, Jaq comes with an "angular" and "basic" blueprint to start. It requires `name` and `author` parameters. Pass them with the `-n` and `-a` arguments, respectively.
 
 ```bash
 jaq frontend -n 'MyApp' -a 'Dominic Cobb <dom@cobolengineering.com>'
@@ -72,4 +72,4 @@ Next, Jaq **copies the files** specified in `copy` from the blueprint's director
 
 Next, Jaq installs the necessary NPM Dependencies and Development Dependencies, as specified in the configuration's `npm.deps` and `npm.devDeps` arrays. Note: a `package.json` file is **not** automatically created in the new directory, so make sure one is created before using Jaq, or, better yet, include one as part of the copy process above. Then, this process is repeated for Bower, using `bower.deps` and `bower.devDeps`.
 
-Finally, any commands listed in the `commands` array are executed in their given order. 
+Finally, any commands listed in the `commands` array are executed in their given order.
