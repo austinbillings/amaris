@@ -1,6 +1,6 @@
 {
   "name": "jaq",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Minimalist scaffolding for quick, MEAN apps.",
   "main": "src/jaq.js",
   "scripts": {
