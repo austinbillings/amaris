@@ -8,7 +8,7 @@ const shell = require('shelljs');
 const params = require('./params.js');
 const collector = require('./collector.js');
 
-let jaq = {
+let amaris = {
   params,
   version: '0.0.1',
   blueprints: ['angular', 'basic'],
@@ -92,29 +92,29 @@ let jaq = {
   // Run a scaffold template -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   scaffold (blueprint, input) {
     let directory = __dirname + '/../blueprints/' + blueprint + '/';
-    let config = require(directory + 'jaq.config.js');
+    let config = require(directory + 'amaris.config.js');
 
-    if (config.require && !jaq.require(config.require, input))
+    if (config.require && !amaris.require(config.require, input))
       return false;
     let cloq = new Cloq('scaffolding');
 
-    if (config.mkdir && !jaq.directories(config.mkdir))
+    if (config.mkdir && !amaris.directories(config.mkdir))
       return false;
     cloq.lap('directories');
 
-    if (config.copy && !jaq.copyFiles(config.copy, directory, input))
+    if (config.copy && !amaris.copyFiles(config.copy, directory, input))
       return false;
     cloq.lap('copying files');
 
-    if (config.npm && !jaq.installNode(config.npm))
+    if (config.npm && !amaris.installNode(config.npm))
       return false;
     cloq.lap('npm install');
 
-    if (config.bower && !jaq.installBower(config.bower))
+    if (config.bower && !amaris.installBower(config.bower))
       return false;
     cloq.lap('bower install');
 
-    if (config.commands && !jaq.runCommands(config.commands))
+    if (config.commands && !amaris.runCommands(config.commands))
       return false;
     cloq.done('running commands');
 
@@ -123,4 +123,4 @@ let jaq = {
   }
 };
 
-module.exports = jaq;
+module.exports = amaris;
