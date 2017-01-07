@@ -1,5 +1,5 @@
 angular.module('<%= name %>')
-.controller('base', ['$scope', '$rootScope', '$http', '$log', '$sce', 'NorthEast', 'RingoService', function ($scope, $rootScope, $http, $log, $sce, NorthEast, RingoService) {
+.controller('base', ['$scope', '$rootScope', '$http', '$log', '$sce', 'NorthEast', function ($scope, $rootScope, $http, $log, $sce, NorthEast) {
   $scope.ne = NorthEast;
   $scope.ui = {
     viewPrefix: ''

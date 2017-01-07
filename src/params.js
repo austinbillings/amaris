@@ -4,6 +4,11 @@ module.exports = {
     example: 'MySite',
     flag: 'n'
   },
+  description: {
+    error: 'A project description, however brief, is required.',
+    example: 'One sick-ass app.',
+    flag: 'd'
+  },
   author: {
     error: 'An author of this project is required.',
     example: `'Antwon Barnabus <antwon@barnabus.net>'`,

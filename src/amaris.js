@@ -6,12 +6,12 @@ const _ = require('underscore');
 const mkdir = require('mkdirp');
 const shell = require('shelljs');
 const params = require('./params.js');
-const collector = require('./collector.js');
+const collector = require('colleqtor');
 
 let amaris = {
   params,
   version: '0.0.1',
-  blueprints: ['angular', 'basic'],
+  blueprints: collector.listFiles(__dirname + '/../blueprints/', null, true),
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
     let pass = true;
@@ -93,6 +93,8 @@ let amaris = {
   scaffold (blueprint, input) {
     let directory = __dirname + '/../blueprints/' + blueprint + '/';
     let config = require(directory + 'amaris.config.js');
+
+    zaq.space(config.description);
 
     if (config.require && !amaris.require(config.require, input))
       return false;

@@ -22,6 +22,7 @@ module.exports = {
     'gulp deps',
     'gulp app',
     'gulp sass',
-    'atom .'
+    'atom .',
+    'gulp'
   ]
 }
