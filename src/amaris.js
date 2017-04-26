@@ -10,7 +10,7 @@ const collector = require('colleqtor');
 
 let amaris = {
   params,
-  version: '1.1.0',
+  version: '1.1.1',
   blueprints: collector.listFiles(__dirname + '/../blueprints/', null, true),
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
@@ -87,7 +87,7 @@ let amaris = {
     zaq.info(chalk.dim(chalk.bold(deps.length) + ' dependencies;'));
     shell.exec('yarn add ' + bower.deps.join(' '));
     return true;
-  }
+  },
   // Exec commands -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   runCommands (commands) {
     zaq.divider('\n Running commands...', '-=~=');
