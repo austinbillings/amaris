@@ -10,10 +10,11 @@ const collector = require('colleqtor');
 
 let amaris = {
   params,
-  version: '0.0.1',
+  version: '0.0.2',
   blueprints: collector.listFiles(__dirname + '/../blueprints/', null, true),
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
+    // innocent until proven guity
     let pass = true;
     _.each(requirements, (requiredParam) => {
       let param = {};
@@ -56,14 +57,14 @@ let amaris = {
   },
   // Node Modules -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   installNode (npm) {
-    zaq.divider('\n Installing Node modules...', '-=~=');
+    zaq.divider('\n Installing Node modules via Yarn...', '-=~=');
     if (npm.deps) {
       zaq.info(chalk.dim(chalk.bold(npm.deps.length) + ' NPM dependencies;'));
-      shell.exec('npm i --save ' + npm.deps.join(' '));
+      shell.exec('yarn add ' + npm.deps.join(' '));
     }
     if (npm.devDeps) {
       zaq.info(chalk.dim(chalk.bold(npm.devDeps.length) + ' NPM dev dependencies;'));
-      shell.exec('npm i --save-dev ' + npm.devDeps.join(' '));
+      shell.exec('yarn add -D ' + npm.devDeps.join(' '));
     }
     return true;
   },
@@ -80,6 +81,13 @@ let amaris = {
     }
     return true;
   },
+  // Straight Yarn -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  yarnInstall (deps) {
+    zaq.divider('\n Installing dependencies (via yarn)...', '-=~=');
+    zaq.info(chalk.dim(chalk.bold(deps.length) + ' dependencies;'));
+    shell.exec('yarn add ' + bower.deps.join(' '));
+    return true;
+  }
   // Exec commands -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   runCommands (commands) {
     zaq.divider('\n Running commands...', '-=~=');
@@ -115,6 +123,10 @@ let amaris = {
     if (config.bower && !amaris.installBower(config.bower))
       return false;
     cloq.lap('bower install');
+    
+    if (config.yarn && !amaris.yarnInstall(config.yarn))
+      return false;
+    cloq.lab('yarn install');
 
     if (config.commands && !amaris.runCommands(config.commands))
       return false;
