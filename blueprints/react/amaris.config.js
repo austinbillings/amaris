@@ -30,7 +30,7 @@ module.exports = {
   ],
   bower: {
     dependencies: [ 'xx', 'mansion' ]
-  }
+  },
   commands: [
     'atom .',
     'webpack-dev-server',
