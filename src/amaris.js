@@ -10,7 +10,7 @@ const collector = require('colleqtor');
 
 let amaris = {
   params,
-  version: '1.2.0',
+  version: '1.2.1',
   blueprints: collector.listFiles(__dirname + '/../blueprints/', null, true),
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
