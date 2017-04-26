@@ -10,7 +10,7 @@ const collector = require('colleqtor');
 
 let amaris = {
   params,
-  version: '1.1.3',
+  version: '1.1.4',
   blueprints: collector.listFiles(__dirname + '/../blueprints/', null, true),
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
@@ -126,7 +126,7 @@ let amaris = {
     
     if (config.yarn && !amaris.yarnInstall(config.yarn))
       return false;
-    cloq.lab('yarn install');
+    cloq.lap('yarn install');
 
     if (config.commands && !amaris.runCommands(config.commands))
       return false;
