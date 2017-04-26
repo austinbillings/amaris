@@ -7,6 +7,7 @@ module.exports = {
   touch: [
     'src/index.jsx', 'ui/sass/main.scss'
   ],
+  copy: [ 'webpack.config.js' ]
   yarn: [
     'node-sass',
     'babel-core',

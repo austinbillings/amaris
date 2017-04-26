@@ -10,7 +10,7 @@ const collector = require('colleqtor');
 
 let amaris = {
   params,
-  version: '1.1.4',
+  version: '1.2.0',
   blueprints: collector.listFiles(__dirname + '/../blueprints/', null, true),
   // Require Options -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   require (requirements, input) {
@@ -42,6 +42,12 @@ let amaris = {
       mkdir.sync(dir);
       zaq.win(`Created directory: ${dir}`);
     });
+    return true;
+  },
+  // Touch files -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  touchFiles (list) {
+    zaq.divider('\n Touching new files...', '-=~=');
+    shell.exec('touch ' + list.join(' '));
     return true;
   },
   // Copy files -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -111,6 +117,10 @@ let amaris = {
     if (config.mkdir && !amaris.directories(config.mkdir))
       return false;
     cloq.lap('directories');
+    
+    if (config.touch && !amaris.touchFiles(config.touch))
+      return false;
+    cloq.lap('touching files');
 
     if (config.copy && !amaris.copyFiles(config.copy, directory, input))
       return false;
